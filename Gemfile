@@ -17,7 +17,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
+gem 'pry', '~> 0.11.3'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

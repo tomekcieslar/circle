@@ -10,31 +10,28 @@ class MarkdownChecklist
     items = {}
     subject = []
     source.each_line do |line|
-      if line =~ /\s*\[[x\s]\]\s*(?<item>.*)/
-        if items.has_key?(line.match(/\s*\[[x\s]\]\s*(?<item>.*)/)[:item])
-          raise DuplicateItemNames
-        end
-        items.merge!(line.match(/\s*\[[x\s]\]\s*(?<item>.*)/)[:item] => line.match(/\s*\[(?<checked>[x\s])\]\s*(?<item>.*)/)[:checked].present?)
-      elsif line =~ /\s*#+\s*(?<subject>.*)/
-        if subject.include?(line.match(/\s*#+\s*(?<subject>.*)/)[:subject])
-          raise DuplicateSubjectNames
-        end
+    parsed_line = Line.parse(line)
+      if parsed_line.kind_of?(Line::ChecklistItem)
+        raise DuplicateItemNames   if items.has_key?(parsed_line.to_s)
+
+        items.merge!(parsed_line.to_s => parsed_line.checked?)
+      elsif parsed_line.kind_of?(Line::Header)
+        raise DuplicateSubjectNames if subject.include?(parsed_line.to_s)
+
         if !items.empty?
           yield subject, items
           items.clear
         end
         if line.count("#") > subject.count + 1
-          subject << line.match(/\s*#+\s*(?<subject>.*)/)[:subject]
-        elsif line.count("#") == subject.count + 1
-          if subject.count > 0
-            subject.pop
-          end
-          subject.push(line.match(/\s*#+\s*(?<subject>.*)/)[:subject])
+          subject << parsed_line.to_s
+        elsif parsed_line.nesting == subject.count + 1
+          subject.pop if subject.count > 0
+          subject.push(parsed_line.to_s)
         else
           (subject.count - line.count("#") + 2).times do
             subject.pop
           end
-          subject.push(line.match(/\s*#+\s*(?<subject>.*)/)[:subject])
+          subject.push(parsed_line.to_s)
         end
       end
     end
