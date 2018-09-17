@@ -1,12 +1,15 @@
-class Line::Text < Line
-  def initialize(source)
-    @source = source
-  end
+class Line
+  class Text < Line
+    def initialize(source)
+      @source = source
+    end
 
-  def to_s
-    source
-  end
+    def to_s
+      source
+    end
 
-  private
-  attr_reader :source
+    private
+
+    attr_reader :source
+  end
 end

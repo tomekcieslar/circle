@@ -1,17 +1,28 @@
-class Line::ChecklistItem < Line
-  def initialize(source)
-    if source =~ /\s*\[[x\s]\]\s*(?<item>.*)/ && !source.match(/\s*\[[x\s]\]\s*(?<item>.*)/)[:item].empty?
+class Line
+  class ChecklistItem < Line
+    CHECKLIST_ITEM_REGEX = /\s*\[(?<checked>[x\s])\]\s*(?<item>.*)/
+
+    def initialize(source)
       @source = source
-    else
-      raise InvalidFormat
+      validate_format!
     end
-  end
 
-  def to_s
-    source.match(/\s*\[[x\s]\]\s*(?<item>.*)/)[:item]
-  end
+    def to_s
+      source_match[:item]
+    end
 
-  def checked?
-     source.match(/\s*\[(?<checked>[x\s])\]\s*.*/)[:checked].include?("x")
+    def checked?
+      source_match[:checked].include?('x')
+    end
+
+    def validate_format!
+      raise InvalidFormat if source !~ CHECKLIST_ITEM_REGEX || source_match[:item].empty?
+    end
+
+    private
+
+    def source_match
+      @source_match ||= source.match(CHECKLIST_ITEM_REGEX)
+    end
   end
 end
