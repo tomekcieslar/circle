@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Line do
   describe '.parse' do
     context 'when parsed text is not header or checlist item' do
-      fit 'describe line kind as a Line::Text' do
+      it 'describe line kind as a Line::Text' do
         expect(Line.parse('abc')).to be_kind_of(Line::Text)
       end
     end
@@ -53,7 +53,7 @@ RSpec.describe Line do
     context 'when try to create new line' do
       it 'raises unaccepttable initialization abstract class exception ' do
         expect { Line.new('a') }.to raise_exception(
-          Line::NotImplementedError, 'Line is an abstract class and cannot be instantiated.'
+          RuntimeError, 'Line is an abstract class and cannot be instantiated.'
         )
       end
     end

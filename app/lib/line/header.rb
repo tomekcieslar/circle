@@ -1,6 +1,6 @@
 class Line
   class Header < Line
-    HEADER_REGEX = /\s*#+\s*(?<subject>.*)/
+    REGEX = /\s*#+\s*(?<subject>.*)/
 
     def initialize(source)
       @source = source
@@ -8,21 +8,17 @@ class Line
     end
 
     def to_s
-      source.match(HEADER_REGEX)[:subject]
+      source_match[:subject]
     end
 
     def nesting
       source.count('#')
     end
 
-    def source_match
-      @source_match ||= source.match(HEADER_REGEX)
-    end
-
     private
 
     def validate_format!
-      raise InvalidFormat if source !~ HEADER_REGEX || source.match(HEADER_REGEX)[:subject].empty?
+      raise InvalidFormat if source !~ REGEX || source_match[:subject].empty?
     end
   end
 end

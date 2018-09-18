@@ -24,13 +24,13 @@ class MarkdownChecklist
           yield subject, items
           items.clear
         end
-        if line.count('#') > subject.count + 1
+        if parsed_line.nesting > subject.count + 1
           subject << parsed_line.to_s
         elsif parsed_line.nesting == subject.count + 1
           subject.pop if subject.count.positive?
           subject.push(parsed_line.to_s)
         else
-          (subject.count - line.count('#') + 2).times do
+          (subject.count - parsed_line.nesting + 2).times do
             subject.pop
           end
           subject.push(parsed_line.to_s)
