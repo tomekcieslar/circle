@@ -5,7 +5,10 @@ RSpec.describe DeveloperVerificationChecklist do
     describe 'statistics (2nd block value)' do
       it 'includes amount of missing required checklist items
       for given level identified by LEVEL_SYMBOL_MAPPING' do
-        stub_const('DeveloperVerificationChecklist::LEVEL_SYMBOL_MAPPING', independent: :dancer)
+        stub_const(
+          'DeveloperVerificationChecklist::LEVEL_SYMBOL_MAPPING',
+           independent: :small_blue_diamond
+         )
         markdown_checklist_statistics = instance_double(MarkdownChecklistStatistics)
 
         allow(MarkdownChecklistStatistics).to receive(:new) { markdown_checklist_statistics }
@@ -13,9 +16,9 @@ RSpec.describe DeveloperVerificationChecklist do
           .and_yield(
             ['Home'],
             { total: 5, checked: 2 },
-            'Plants :smiley_face: ' => false, 'Rooms :dancer: wow' => true,
-            'Furniture and desk :dancer: ' => false, 'Floors & Doors  :dancer: first' => false,
-            'Garden' => true
+            'Plants :small_orange_diamond: ' => false, 'Rooms :small_blue_diamond: wow' => true,
+            'Furniture and desk :small_blue_diamond: ' => false,
+            'Floors & Doors  :small_blue_diamond: first' => false, 'Garden' => true
           )
           developer_verification_checklist =
             DeveloperVerificationChecklist.new(markdown_checklist_statistics, :independent)
@@ -29,7 +32,10 @@ RSpec.describe DeveloperVerificationChecklist do
 
     describe "missing_required_tasks (3rd block value)" do
       it 'includes all missing required checklist items' do
-        stub_const('DeveloperVerificationChecklist::LEVEL_SYMBOL_MAPPING',independent: :dancer)
+        stub_const(
+          'DeveloperVerificationChecklist::LEVEL_SYMBOL_MAPPING',
+          mid: :small_orange_diamond
+        )
         markdown_checklist_statistics = instance_double(MarkdownChecklistStatistics)
 
         allow(MarkdownChecklistStatistics).to receive(:new) { markdown_checklist_statistics }
@@ -37,18 +43,19 @@ RSpec.describe DeveloperVerificationChecklist do
           .and_yield(
             ['Home'],
             { total: 5, checked: 2 },
-            'Plants :smiley_face: ' => false, 'Rooms :dancer: wow' => true,
-            'Furniture and desk :dancer: ' => false, 'Floors & Doors  :dancer: first' => false,
+            'Plants :small_orange_diamond:' => false, 'Rooms :small_blue_diamond: wow' => true,
+            'Furniture and desk :small_blue_diamond:' => false,
+            'Floors & Doors :small_blue_diamond: first' => false,
             'Garden' => true
           )
           developer_verification_checklist =
-            DeveloperVerificationChecklist.new(markdown_checklist_statistics, :independent)
+            DeveloperVerificationChecklist.new(markdown_checklist_statistics, :mid)
 
           expect { |b| developer_verification_checklist.each(&b) }.to \
             yield_with_args(
               ['Home'],
-              { total: 5, checked: 2, missing_required_tasks: 2},
-              ['Furniture and desk', 'Floors & Doors']
+              { total: 5, checked: 2, missing_required_tasks: 1},
+              ['Plants']
             )
       end
     end
