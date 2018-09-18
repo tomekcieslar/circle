@@ -1,0 +1,58 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+        environment:
+          - RAILS_ENV=test
+    environment:
+      - DISABLE_SPRING=1
+      - RAILS_ENV=test
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          - v1-dependencies-
+      - run:
+          name: install dependencies
+          command: |
+            gem install bundler
+            bundle install --without development --jobs=4 --retry=3 --path vendor/bundle
+            bundle exec chromedriver-update 2.37
+      - run:
+          name: setup
+          command: |
+            yarn
+            sudo apt-get install -f
+      - save_cache:
+          paths:
+            - public/assets
+            - tmp/cache/assets
+            - /opt/circleci/.rvm/gems
+            - node_modules
+            - vendor/bundle
+            - ./venv
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: setup-assets
+          command: |
+            bundle exec rake assets:precompile assets:clean --trace
+      - run:
+          name: run rubocop
+          command: |
+            bundle exec rubocop
+      - run:
+          name: run specs
+          command: |
+            bundle exec rspec --format progress
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
