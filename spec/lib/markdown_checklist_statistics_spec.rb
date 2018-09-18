@@ -14,7 +14,7 @@ RSpec.describe MarkdownChecklistStatistics do
           markdown_checklist_statistics = MarkdownChecklistStatistics.new(markdown_checklist)
 
           expect { |b| markdown_checklist_statistics.each(&b) }.to \
-            yield_with_args([], total: 2, checked: 1)
+            yield_with_args([], { total: 2, checked: 1 }, 'Plants' => false, 'Rooms' => true)
         end
       end
 
@@ -29,7 +29,7 @@ RSpec.describe MarkdownChecklistStatistics do
           markdown_checklist_statistics = MarkdownChecklistStatistics.new(markdown_checklist)
 
           expect { |b| markdown_checklist_statistics.each(&b) }.to \
-            yield_with_args(['Home'], total: 2, checked: 1)
+            yield_with_args(['Home'], { total: 2, checked: 1 }, 'Plants' => false, 'Rooms' => true)
         end
       end
     end
@@ -47,7 +47,10 @@ RSpec.describe MarkdownChecklistStatistics do
           markdown_checklist_statistics = MarkdownChecklistStatistics.new(markdown_checklist)
 
           expect { |b| markdown_checklist_statistics.each(&b) }.to \
-            yield_with_args(%w[Home Rooms], total: 2, checked: 1)
+            yield_with_args(
+              %w[Home Rooms], { total: 2, checked: 1 },
+              'Bedroom' => false, 'Livingroom' => true
+            )
         end
       end
 
@@ -65,8 +68,10 @@ RSpec.describe MarkdownChecklistStatistics do
 
           expect { |b| markdown_checklist_statistics.each(&b) }.to \
             yield_successive_args(
-              [%w[Home], { total: 2, checked: 1 }],
-              [%w[Home Rooms], { total: 2, checked: 1 }]
+              [%w[Home], { total: 2, checked: 1 },
+               { 'First floor' => false, 'Second floor' => true }],
+              [%w[Home Rooms], { total: 2, checked: 1 },
+               { 'Bedroom' => false, 'Livingroom' => true }]
             )
         end
       end
@@ -83,7 +88,10 @@ RSpec.describe MarkdownChecklistStatistics do
           markdown_checklist_statistics = MarkdownChecklistStatistics.new(markdown_checklist)
 
           expect { |b| markdown_checklist_statistics.each(&b) }.to \
-            yield_with_args(%w[Home Rooms Furniture], total: 2, checked: 1)
+            yield_with_args(
+              %w[Home Rooms Furniture], { total: 2, checked: 1 },
+              'Desk' => false, 'Sofa' => true
+            )
         end
       end
     end

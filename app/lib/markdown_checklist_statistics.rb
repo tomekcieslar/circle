@@ -7,7 +7,7 @@ class MarkdownChecklistStatistics
     markdown_checklist.each do |subject, items|
       statistics = { total: items.count, checked: \
       items.count { |_item_name, is_completed| is_completed } }
-      yield subject, statistics
+      yield subject, statistics, items
     end
   end
 
