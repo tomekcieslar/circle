@@ -26,6 +26,12 @@ RSpec.describe Line do
       end
     end
 
+    context 'when parsed text is unchecked checlist item with headers sign in name' do
+      it 'describe line kind as a Line::ChecklistItem' do
+        expect(Line.parse('[ ] abc html#index')).to be_kind_of(Line::ChecklistItem)
+      end
+    end
+
     context 'when parsed text is checked checlist item' do
       it 'describe line kind as a Line::ChecklistItem' do
         expect(Line.parse('[x] abc')).to be_kind_of(Line::ChecklistItem)

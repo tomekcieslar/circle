@@ -1,6 +1,6 @@
 class Line
   class Header < Line
-    REGEX = /\s*#+\s*(?<subject>.*)/
+    REGEX = /^\s*#+\s*(?<subject>.*)/
 
     def initialize(source)
       @source = source

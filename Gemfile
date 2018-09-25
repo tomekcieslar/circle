@@ -16,7 +16,9 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem 'faraday', '~> 0.15.3'
 gem 'pry', '~> 0.11.3'
+gem 'redcarpet', '~> 3.4'
 gem 'rubocop', '~> 0.59.1', require: false
 
 # Use Redis adapter to run Action Cable in production
@@ -33,7 +35,9 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'rspec-rails', '~> 3.7'
+  gem 'rspec-tapas'
   gem 'selenium-webdriver'
+  gem 'webmock', '~> 3.4', '>= 3.4.2'
 end
 
 group :development do

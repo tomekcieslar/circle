@@ -1,0 +1,7 @@
+<%= form_tag(action: "create") do %>
+  <%= label_tag 'progress_summary[url]', 'Gist URL' %>
+  <%= text_area_tag('progress_summary[url]') %>
+  <%= label_tag 'progress_summary[level]', 'Level' %>
+  <%= select_tag 'progress_summary[level]', options_for_select(["independent", "mid", "senior"])%>
+  <%= submit_tag('Submit') %>
+<% end %>

@@ -1,4 +1,5 @@
 class DeveloperVerificationChecklist
+  include Enumerable
   LEVEL_SYMBOL_MAPPING =
     { independent: :small_blue_diamond, mid: :small_orange_diamond, senior: :small_red_triangle }
   EMOJI_REGEX = /:[a-z_]+:/
