@@ -20,6 +20,7 @@ gem 'faraday', '~> 0.15.3'
 gem 'pry', '~> 0.11.3'
 gem 'redcarpet', '~> 3.4'
 gem 'rubocop', '~> 0.59.1', require: false
+gem 'bootstrap', '~> 4.1', '>= 4.1.3'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
