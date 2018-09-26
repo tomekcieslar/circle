@@ -1,7 +1,16 @@
-<%= form_tag(action: "create") do %>
-  <%= label_tag 'progress_summary[url]', 'Gist URL' %>
-  <%= text_area_tag('progress_summary[url]') %>
-  <%= label_tag 'progress_summary[level]', 'Level' %>
-  <%= select_tag 'progress_summary[level]', options_for_select(["independent", "mid", "senior"])%>
-  <%= submit_tag('Submit') %>
-<% end %>
+ <body style="margin: 150px; padding: 50px">
+  <div class="container">
+    <%= form_tag(action: "create") do %>
+        <div class="input-group mb-6">
+          <%= text_area_tag(
+            'progress_summary[url]',nil, class: "form-control", placeholder: "Enter your gist url"
+            )%>
+          <div class="input-group-append">
+            <%= select_tag 'progress_summary[level]', options_for_select(["independent", "mid", "senior"]),class: "btn btn-outline-secondary dropdown-toggle", type: "button"%>
+            <%= submit_tag('Submit', class: 'btn btn-secondary') %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+</body>

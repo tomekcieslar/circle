@@ -1,14 +1,16 @@
-<h1>Total: <%= progress_summary.total_selected %>/<%= progress_summary.total %></h1>
-<% progress_summary.subjects.each do |subject, items, missing_items |  %>
-  <div>
-    <h2><%= progress_summary.rendering(subject.last) %>: <%= items[:checked]%>/<%= items[:total]%></h2>
-    <% unless items[:missing_required_tasks] == 0   %>
-      <h3>Missing Tasks (<%= items[:missing_required_tasks] %>)</h3>
-      <ul>
-        <% missing_items.each do |item| %>
-          <li> <%= progress_summary.rendering(item) %> </li>
-        <% end %>
-      </ul>
-    <% end %>
-  </div>
+<% progress_summaries.each do |progress_summary| %>
+  <h1>Total: <%= progress_summary.total_selected %>/<%= progress_summary.total %></h1>
+  <% progress_summary.subjects.each do |subject, items, missing_items |  %>
+    <div>
+      <h2><%= progress_summary.rendering(subject.last) %>: <%= items[:checked]%>/<%= items[:total]%></h2>
+      <% unless items[:missing_required_tasks] == 0   %>
+        <h3>Missing Tasks (<%= items[:missing_required_tasks] %>)</h3>
+        <ul>
+          <% missing_items.each do |item| %>
+            <li> <%= progress_summary.rendering(item) %> </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

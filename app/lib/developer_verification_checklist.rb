@@ -11,6 +11,9 @@ class DeveloperVerificationChecklist
 
   def each
     markdown_checklist_statistics.each do |subjects, statistics, items|
+      subjects.map! do |subject|
+          subject.sub(EMOJI_REGEX, '').squish
+      end.compact
       missing_required_tasks = items.map do |item_label, is_checked|
         if !is_checked && item_label[":#{LEVEL_SYMBOL_MAPPING[level]}:"]
           item_label.gsub(EMOJI_REGEX, '').squish
